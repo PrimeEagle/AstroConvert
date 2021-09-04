@@ -1,0 +1,16 @@
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\AstroTools.exe
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\AstroTools.deps.json
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\AstroTools.runtimeconfig.json
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\AstroTools.runtimeconfig.dev.json
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\AstroTools.dll
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\AstroTools.pdb
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\FileHelpers.dll
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\AstroTools.csproj.AssemblyReference.cache
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\AstroTools.GeneratedMSBuildEditorConfig.editorconfig
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\AstroTools.AssemblyInfoInputs.cache
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\AstroTools.AssemblyInfo.cs
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\AstroTools.csproj.CoreCompileInputs.cache
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\AstroTools.csproj.CopyComplete
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\AstroTools.dll
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\AstroTools.pdb
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\AstroTools.genruntimeconfig.cache

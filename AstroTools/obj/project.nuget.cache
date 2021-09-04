@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "hiCEGXHbmqVxxqzmrIHT8yytNTap5dGqmbbwpOdV1mpTd9a4oaxpRCFQLdDnUG2z+ftnHGXrSARtL3vxBOunJQ==",
+  "success": true,
+  "projectFilePath": "D:\\My Code\\HYGtoAS\\HYGtoAS\\AstroTools.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\John\\.nuget\\packages\\filehelpers\\3.5.0\\filehelpers.3.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}

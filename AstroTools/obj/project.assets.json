@@ -1,0 +1,107 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "FileHelpers/3.5.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/FileHelpers.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/FileHelpers.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FileHelpers/3.5.0": {
+      "sha512": "CjeIunu+f2KfJj3UOMqBQoDaD57YCObc1LesBbgXWR4/wVx7bHszbMumyxuDJc8SzaP9np7BUTeTIXz1c+EDtg==",
+      "type": "package",
+      "path": "filehelpers/3.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "filehelpers.3.5.0.nupkg.sha512",
+        "filehelpers.nuspec",
+        "lib/net40/FileHelpers.dll",
+        "lib/net40/FileHelpers.xml",
+        "lib/net45/FileHelpers.dll",
+        "lib/net45/FileHelpers.xml",
+        "lib/netstandard2.0/FileHelpers.dll",
+        "lib/netstandard2.0/FileHelpers.xml"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v3.1": [
+      "FileHelpers >= 3.5.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\John\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\My Code\\HYGtoAS\\HYGtoAS\\AstroTools.csproj",
+      "projectName": "AstroTools",
+      "projectPath": "D:\\My Code\\HYGtoAS\\HYGtoAS\\AstroTools.csproj",
+      "packagesPath": "C:\\Users\\John\\.nuget\\packages\\",
+      "outputPath": "D:\\My Code\\HYGtoAS\\HYGtoAS\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\John\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "netcoreapp3.1"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
+        "dependencies": {
+          "FileHelpers": {
+            "target": "Package",
+            "version": "[3.5.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

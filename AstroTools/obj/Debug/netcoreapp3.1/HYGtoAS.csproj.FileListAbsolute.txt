@@ -1,0 +1,16 @@
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\HYGtoAS.exe
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\HYGtoAS.deps.json
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\HYGtoAS.runtimeconfig.json
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\HYGtoAS.runtimeconfig.dev.json
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\HYGtoAS.dll
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\HYGtoAS.pdb
+D:\My Code\HYGtoAS\HYGtoAS\bin\Debug\netcoreapp3.1\FileHelpers.dll
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\HYGtoAS.csproj.AssemblyReference.cache
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\HYGtoAS.GeneratedMSBuildEditorConfig.editorconfig
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\HYGtoAS.AssemblyInfoInputs.cache
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\HYGtoAS.AssemblyInfo.cs
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\HYGtoAS.csproj.CoreCompileInputs.cache
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\HYGtoAS.csproj.CopyComplete
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\HYGtoAS.dll
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\HYGtoAS.pdb
+D:\My Code\HYGtoAS\HYGtoAS\obj\Debug\netcoreapp3.1\HYGtoAS.genruntimeconfig.cache
