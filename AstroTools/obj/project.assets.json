@@ -44,11 +44,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\My Code\\HYGtoAS\\HYGtoAS\\AstroTools.csproj",
+      "projectUniqueName": "D:\\My Code\\AstroTools\\AstroTools\\AstroTools.csproj",
       "projectName": "AstroTools",
-      "projectPath": "D:\\My Code\\HYGtoAS\\HYGtoAS\\AstroTools.csproj",
+      "projectPath": "D:\\My Code\\AstroTools\\AstroTools\\AstroTools.csproj",
       "packagesPath": "C:\\Users\\John\\.nuget\\packages\\",
-      "outputPath": "D:\\My Code\\HYGtoAS\\HYGtoAS\\obj\\",
+      "outputPath": "D:\\My Code\\AstroTools\\AstroTools\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

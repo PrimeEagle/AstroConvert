@@ -9,7 +9,8 @@ namespace AstroTools
         string CompanionPrimaryStarId { get; set; }
         string SystemId { get; set; }
 
-        Astrosynthesis Convert();
+        AstrosynthesisCsv Convert();
         bool? AlternateAddCondition(AlternateConditionData data);
+        IEnumerable<IAstroFormat> ReadFile(FileType ft);
     }
 }

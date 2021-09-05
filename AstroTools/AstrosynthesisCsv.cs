@@ -9,7 +9,7 @@ namespace AstroTools
     [DelimitedRecord(",")]
     [IgnoreFirst(5)]
     [IgnoreLast(2)]
-    public class Astrosynthesis : IAstroFormat
+    public class AstrosynthesisCsv : IAstroFormat
     {
         [FieldTrim(TrimMode.Both)]
         public string BodyType { get; set; }
@@ -83,9 +83,9 @@ namespace AstroTools
                         $"ColorIndex = {this.ColorIndex.ToString()}; Constellation = {this.Constellation}";
         }
 
-		public Astrosynthesis Convert()
+		public AstrosynthesisCsv Convert()
 		{
-			Astrosynthesis result = null;
+			AstrosynthesisCsv result = null;
 
             string hdId = Utility.GetTagValue(this.Note, "HD Cat number ");
             if (string.IsNullOrEmpty(hdId)) hdId = Utility.GetTagValue(this.Name, "HDEC ");
@@ -126,6 +126,13 @@ namespace AstroTools
         public bool? AlternateAddCondition(AlternateConditionData data)
         {
             return data.PartOfMultiple;
+        }
+
+        IEnumerable<IAstroFormat> IAstroFormat.ReadFile(FileType ft)
+        {
+            var inputEngineAstro = new FileHelperEngine<AstrosynthesisCsv>();
+            
+            return inputEngineAstro.ReadFile($"{ft.Filename}").ToList<IAstroFormat>();
         }
     }
 }

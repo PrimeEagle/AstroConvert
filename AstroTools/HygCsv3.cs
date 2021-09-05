@@ -8,7 +8,7 @@ namespace AstroTools
 {
     [DelimitedRecord(",")]
     [IgnoreFirst(1)]
-    public class Hyg3 : IAstroFormat
+    public class HygCsv3 : IAstroFormat
     {
         [FieldTrim(TrimMode.Both)]
         public string Id { get; set; }
@@ -65,14 +65,14 @@ namespace AstroTools
         [FieldHidden]
         public string SystemId { get; set; }
 
-        public Astrosynthesis Convert()
+        public AstrosynthesisCsv Convert()
         {
-            Astrosynthesis result = null;
+            AstrosynthesisCsv result = null;
 
             string hdId = this.HenryDraperId;
             string hrId = this.HarvardRevisedId;
 
-            result = new Astrosynthesis();
+            result = new AstrosynthesisCsv();
 
             double? radius = null;
             double? mass = null;
@@ -131,6 +131,18 @@ namespace AstroTools
         public bool? AlternateAddCondition(AlternateConditionData data)
         {
             return !string.IsNullOrEmpty(data.InputItem.CompanionPrimaryStarId);
+        }
+
+        IEnumerable<IAstroFormat> IAstroFormat.ReadFile(FileType ft)
+        {
+            var inputEngineHyg3 = new FileHelperEngine<HygCsv3>();
+            var inputListHyg3 = inputEngineHyg3.ReadFile($"{ft.Filename}").ToList<HygCsv3>();
+            var multiStars = inputListHyg3.Where(x => !string.IsNullOrEmpty(x.MultistarCatalogId)).OrderBy(x => x.MultistarCatalogId).ThenBy(x => x.GlieseId);
+            var singleStars = inputListHyg3.Where(x => string.IsNullOrEmpty(x.MultistarCatalogId));
+
+            var result = (multiStars ?? Enumerable.Empty<IAstroFormat>()).Concat(singleStars ?? Enumerable.Empty<IAstroFormat>());
+
+            return result;
         }
     }
 }

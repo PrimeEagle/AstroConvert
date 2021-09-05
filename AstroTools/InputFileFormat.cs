@@ -4,9 +4,10 @@ using System.Text;
 
 namespace AstroTools
 {
-    public enum FileFormat
+    public enum InputFileFormat
     {
-        Astrosynthesis,
-        Hyg3
+        AstrosynthesisCsv,
+        HygDsoCsv2,
+        HygCsv3
     }
 }

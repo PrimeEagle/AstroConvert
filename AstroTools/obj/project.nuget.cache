@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hiCEGXHbmqVxxqzmrIHT8yytNTap5dGqmbbwpOdV1mpTd9a4oaxpRCFQLdDnUG2z+ftnHGXrSARtL3vxBOunJQ==",
+  "dgSpecHash": "yEkybeQo22fPNcEDkD3VBQ94cVB4uAwiVzN43jouTIAdyl8MghYuuzmTMpov7YrL8VVEHgGbcqXWfDXI4H07MA==",
   "success": true,
-  "projectFilePath": "D:\\My Code\\HYGtoAS\\HYGtoAS\\AstroTools.csproj",
+  "projectFilePath": "D:\\My Code\\AstroTools\\AstroTools\\AstroTools.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\John\\.nuget\\packages\\filehelpers\\3.5.0\\filehelpers.3.5.0.nupkg.sha512"
   ],

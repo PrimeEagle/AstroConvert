@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace AstroTools
 {
-    public class AstrosynthesisStore
+    public class AstrosynthesisStore : IEnumerable<AstrosynthesisCsv>
     {
-        HashSet<Astrosynthesis> store = new HashSet<Astrosynthesis>();
+        HashSet<AstrosynthesisCsv> store = new HashSet<AstrosynthesisCsv>();
 
         public int Count
         {
@@ -16,7 +17,7 @@ namespace AstroTools
             }
         }
 
-        private bool Exists(Astrosynthesis item)
+        private bool Exists(AstrosynthesisCsv item)
         {
             bool exists;
             List<bool> existsList = new List<bool>();
@@ -42,7 +43,7 @@ namespace AstroTools
             return exists;
         }
 
-        public bool Add(Astrosynthesis item, bool? alternateConditionToAddItem = null)
+        public bool Add(AstrosynthesisCsv item, bool? alternateConditionToAddItem = null)
         {
             bool add;
 
@@ -66,14 +67,24 @@ namespace AstroTools
             return add;
         }
 
-        public void RemoveAll(Predicate<Astrosynthesis> match)
+        public void RemoveAll(Predicate<AstrosynthesisCsv> match)
         {
             store.RemoveWhere(match);
         }
 
-        public HashSet<Astrosynthesis> ToList()
+        public HashSet<AstrosynthesisCsv> ToList()
         {
             return store;
+        }
+
+        public IEnumerator<AstrosynthesisCsv> GetEnumerator()
+        {
+            return ((IEnumerable<AstrosynthesisCsv>)store).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)store).GetEnumerator();
         }
     }
 }
