@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstroTools", "AstroTools\AstroTools.csproj", "{401AD0DB-F4A9-49A1-9035-DF6D28C02F96}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstroTools.Test", "AstroTools.Test\AstroTools.Test.csproj", "{55C4EB02-E1A5-4414-A428-42040CC1DAF3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{401AD0DB-F4A9-49A1-9035-DF6D28C02F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{401AD0DB-F4A9-49A1-9035-DF6D28C02F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{401AD0DB-F4A9-49A1-9035-DF6D28C02F96}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55C4EB02-E1A5-4414-A428-42040CC1DAF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55C4EB02-E1A5-4414-A428-42040CC1DAF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55C4EB02-E1A5-4414-A428-42040CC1DAF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55C4EB02-E1A5-4414-A428-42040CC1DAF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
