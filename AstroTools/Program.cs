@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using AstroTools.Formats;
 using FileHelpers;
@@ -21,14 +23,14 @@ namespace AstroTools
             {
                 //new FileType($"{path}hygdata_v3.csv", InputFileFormat.HygCsv3),
                 new FileType($"{path}Space 100 ly Fileset Package\\Space1 20ly AstroSyn CSV.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}Space 100 ly Fileset Package\\Space2 20-60ly AstroSyn CSV.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}Space 100 ly Fileset Package\\Space3 60-78ly AstroSyn CSV.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}Space 100 ly Fileset Package\\Space4 78-90ly AstroSyn CSV.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}Space 100 ly Fileset Package\\Space5 90-100ly AstroSyn CSV.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}kepner_stardata\\kepner_50lyr_stars.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}kepner_stardata\\kepner_100lyr_stars.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}kepner_stardata\\kepner_1000lyr_stars.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_5ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}Space 100 ly Fileset Package\\Space2 20-60ly AstroSyn CSV.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}Space 100 ly Fileset Package\\Space3 60-78ly AstroSyn CSV.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}Space 100 ly Fileset Package\\Space4 78-90ly AstroSyn CSV.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}Space 100 ly Fileset Package\\Space5 90-100ly AstroSyn CSV.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}kepner_stardata\\kepner_50lyr_stars.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}kepner_stardata\\kepner_100lyr_stars.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}kepner_stardata\\kepner_1000lyr_stars.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_5ly.csv", InputFileFormat.AstrosynthesisCsv),
                 //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_10ly.csv", InputFileFormat.AstrosynthesisCsv),
                 //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_15ly.csv", InputFileFormat.AstrosynthesisCsv),
                 //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_20ly.csv", InputFileFormat.AstrosynthesisCsv),
@@ -85,13 +87,14 @@ namespace AstroTools
             var lastSystemId = string.Empty;
 
             Console.Write($"     Parsing {parse} records of {total}...          ");
-            foreach (var input in astroFormats)
+            Parallel.ForEach(astroFormats, input =>
             {
                 var partOfMultiple = (input.SystemId == lastSystemId);
 
                 var result = input.Convert();
-                parse++;
-                if (parse % 100 == 0) Console.Write($"\r     Parsing {parse} records of {total} ({count} added)...          ");
+                Interlocked.Increment(ref parse);
+                if (parse % 100 == 0)
+                    Console.Write($"\r     Parsing {parse} records of {total} ({count} added)...          ");
 
                 var data = new AlternateConditionData
                 {
@@ -103,18 +106,20 @@ namespace AstroTools
                 var added = outputStore.Add(result, input.AlternateAddCondition(data));
 
                 if (added)
-                    count++;
+                    Interlocked.Increment(ref count);
                 else
-                    Catalog.Add(CatalogType.Eliminated, $"HD = {result.HenryDraperId}, HR = {result.HarvardRevisedId}, HIP = {result.HipparcosId}, COD = {result.CodId}, BD = {result.BdId}, CPD = {result.CpdId}, Gliese = {result.GlieseId}, Name = {result.Name}");
+                    Catalog.Add(CatalogType.Eliminated,
+                        $"HD = {result.HenryDraperId}, HR = {result.HarvardRevisedId}, HIP = {result.HipparcosId}, COD = {result.CodId}, BD = {result.BdId}, CPD = {result.CpdId}, Gliese = {result.GlieseId}, Name = {result.Name}");
 
                 lastSystemId = input.SystemId;
-            }
+            });
+
             Console.WriteLine($"\r     {count} records out of {astroFormats.Count()} added.             ");
         }
 
         private static IEnumerable<IAstroFormat> ReadFile(FileType ft)
         {
-            var className = $"{ typeof(Program).Namespace}.{ ft.Format.ToString()}";
+            var className = $"{ typeof(Program).Namespace}.Formats.{ ft.Format.ToString()}";
 
             var fileFormat = (IAstroFormat)Activator.CreateInstance(Assembly.GetExecutingAssembly().FullName, className)?.Unwrap();
             

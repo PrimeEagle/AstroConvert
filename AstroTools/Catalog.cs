@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,11 +7,11 @@ namespace AstroTools
 {
     public static class Catalog
     {
-        private static Dictionary<CatalogType, IEnumerable<string>> _catalog;
+        private static ConcurrentDictionary<CatalogType, IEnumerable<string>> _catalog;
 
         public static void Init()
         {
-            _catalog = new Dictionary<CatalogType, IEnumerable<string>>();
+            _catalog = new ConcurrentDictionary<CatalogType, IEnumerable<string>>();
         }
 
         public static int Count(CatalogType cat)
@@ -22,11 +23,11 @@ namespace AstroTools
         {
             if (!_catalog.ContainsKey(cat) && !string.IsNullOrEmpty(id))
             {
-                _catalog.Add(cat, new HashSet<string>());
+                _catalog.TryAdd(cat, new HashSet<string>());
             }
 
             if (string.IsNullOrEmpty(id)) return;
-
+            
             var tempList = _catalog[cat].ToHashSet();
             tempList.Add(id);
             _catalog[cat] = tempList;
