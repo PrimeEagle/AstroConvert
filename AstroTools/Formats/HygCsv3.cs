@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FileHelpers;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace AstroTools.Formats
 {
@@ -53,7 +54,7 @@ namespace AstroTools.Formats
         [FieldTrim(TrimMode.Both)]
         public string CompanionStarId { get; set; }
         [FieldTrim(TrimMode.Both)]
-        public string CompanionPrimaryStarId { get; set; }
+        public string CompanionPrimaryStarId { get; init; }
         [FieldTrim(TrimMode.Both)]
         public string MultistarCatalogId { get; set; }
         public double? Luminosity { get; set; }

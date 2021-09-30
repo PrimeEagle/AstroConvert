@@ -5,7 +5,7 @@ namespace AstroTools
 {
     public interface IAstroFormat
     {
-        string CompanionPrimaryStarId { get; set; }
+        string CompanionPrimaryStarId { get; init; }
         string SystemId { get; set; }
 
         AstrosynthesisCsv Convert();

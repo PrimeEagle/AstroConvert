@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FileHelpers;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace AstroTools.Formats
 {
@@ -68,7 +70,7 @@ namespace AstroTools.Formats
         public double? ColorIndex { get; set; }
 
         [FieldHidden]
-        public string CompanionPrimaryStarId { get; set; }
+        public string CompanionPrimaryStarId { get; init; }
 
         public void UpdateNote()
         {

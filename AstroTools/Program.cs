@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Xml.Linq;
 using AstroTools.Formats;
 using FileHelpers;
+using VNet.Utility;
 
 namespace AstroTools
 {
@@ -140,7 +141,7 @@ namespace AstroTools
                                             new XAttribute("TypeID", "Deep Space Object"),
                                             new XElement("X", body.X),
                                             new XElement("Z", body.Z),
-                                            new XElement("RandomSeed", Utility.RandomDigits(9))
+                                            new XElement("RandomSeed", StringUtility.CreateRandomDigits(9))
                                         )
                                     )
                                 );

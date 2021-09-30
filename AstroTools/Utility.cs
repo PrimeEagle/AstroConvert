@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using VNet.Utility;
 
 namespace AstroTools
 {
@@ -27,7 +28,7 @@ namespace AstroTools
                 {
                     var t = tokens[idx].Trim();
 
-                    if (Utility.IsNumber(t) ||
+                    if (t.IsNumber() ||
                         (tag == "Gliese" && t == "NN") ||
                         (t.Length == 1 && new string[] { "A", "B", "C", "D", "E" }.Contains(t)))
                     {
@@ -45,22 +46,6 @@ namespace AstroTools
             }
 
             return retVal;
-        }
-
-        public static bool IsNumber(string s)
-        {
-            var result = int.TryParse(s, out _);
-
-            return result;
-        }
-
-        public static string RandomDigits(int length)
-        {
-            var random = new Random();
-            var s = string.Empty;
-            for (var i = 0; i < length; i++)
-                s = string.Concat(s, random.Next(10).ToString());
-            return s;
         }
     }
 }
