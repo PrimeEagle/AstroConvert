@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FileHelpers;
 
-namespace AstroTools
+namespace AstroTools.Formats
 {
     [DelimitedRecord(",")]
     [IgnoreFirst(5)]
@@ -74,8 +72,8 @@ namespace AstroTools
 
         public void UpdateNote()
         {
-            string codId = string.IsNullOrEmpty(this.CodId) ? string.Empty : "C-" + this.CodId;
-            string bdId = string.IsNullOrEmpty(this.BdId) ? string.Empty : "BD+" + this.BdId;
+            var codId = string.IsNullOrEmpty(this.CodId) ? string.Empty : "C-" + this.CodId;
+            var bdId = string.IsNullOrEmpty(this.BdId) ? string.Empty : "BD+" + this.BdId;
 
             this.Note = $"HD = {this.HenryDraperId}; HR = {this.HarvardRevisedId}; HIP = {this.HipparcosId}; CoD = {codId}; " +
                         $"BD = {bdId}; CPD = {this.CpdId}; Gliese = {this.GlieseId}; BF = {this.BayerFlamsteedId}; B = {this.BayerId}; " +
@@ -87,25 +85,25 @@ namespace AstroTools
 		{
 			AstrosynthesisCsv result = null;
 
-            string hdId = Utility.GetTagValue(this.Note, "HD Cat number ");
+            var hdId = Utility.GetTagValue(this.Note, "HD Cat number ");
             if (string.IsNullOrEmpty(hdId)) hdId = Utility.GetTagValue(this.Name, "HDEC ");
             if (string.IsNullOrEmpty(hdId)) hdId = Utility.GetTagValue(this.Name, "HDE ");
             if (string.IsNullOrEmpty(hdId)) hdId = Utility.GetTagValue(this.Name, "HD ");
 
-            string hrId = Utility.GetTagValue(this.Note, "HR Cat number ");
-            string hipId = Utility.GetTagValue(this.Note, "HIP");
+            var hrId = Utility.GetTagValue(this.Note, "HR Cat number ");
+            var hipId = Utility.GetTagValue(this.Note, "HIP");
             if (string.IsNullOrEmpty(hipId)) hipId = Utility.GetTagValue(this.Name, "HIP");
 
-            string codId = Utility.GetTagValue(this.Note, "CoD C-");
+            var codId = Utility.GetTagValue(this.Note, "CoD C-");
             if (string.IsNullOrEmpty(codId)) codId = Utility.GetTagValue(this.Name, "CoD C-");
 
-            string bdId = Utility.GetTagValue(this.Note, "BD B+");
+            var bdId = Utility.GetTagValue(this.Note, "BD B+");
             if (string.IsNullOrEmpty(bdId)) bdId = Utility.GetTagValue(this.Name, "BD B+");
 
-            string cpdId = Utility.GetTagValue(this.Note, "CPD");
+            var cpdId = Utility.GetTagValue(this.Note, "CPD");
             if (string.IsNullOrEmpty(cpdId)) cpdId = Utility.GetTagValue(this.Name, "CPD");
 
-            string glieseId = Utility.GetTagValue(this.Note, "Gliese");
+            var glieseId = Utility.GetTagValue(this.Note, "Gliese");
             if (string.IsNullOrEmpty(glieseId)) glieseId = Utility.GetTagValue(this.Name, "Gliese");
             if (string.IsNullOrEmpty(glieseId)) glieseId = Utility.GetTagValue(this.Name, "Gl");
 

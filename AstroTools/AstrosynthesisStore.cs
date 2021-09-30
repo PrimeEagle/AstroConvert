@@ -2,25 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AstroTools.Formats;
 
 namespace AstroTools
 {
     public class AstrosynthesisStore : IEnumerable<AstrosynthesisCsv>
     {
-        HashSet<AstrosynthesisCsv> store = new HashSet<AstrosynthesisCsv>();
+        private readonly HashSet<AstrosynthesisCsv> _store = new HashSet<AstrosynthesisCsv>();
 
-        public int Count
-        {
-            get
-            {
-                return store.Count;
-            }
-        }
+        public int Count => _store.Count;
 
-        private bool Exists(AstrosynthesisCsv item)
+        private static bool Exists(AstrosynthesisCsv item)
         {
             bool exists;
-            List<bool> existsList = new List<bool>();
+            var existsList = new List<bool>();
 
             if (!string.IsNullOrEmpty(item.BdId)) existsList.Add(Catalog.Contains(CatalogType.BD, item.BdId));
             if (!string.IsNullOrEmpty(item.CodId)) existsList.Add(Catalog.Contains(CatalogType.COD, item.CodId));
@@ -37,7 +32,7 @@ namespace AstroTools
             }
             else
             {
-                exists = existsList.Where(e => e).Count() == existsList.Count();
+                exists = existsList.Count(e => e) == existsList.Count();
             }
 
             return exists;
@@ -50,41 +45,39 @@ namespace AstroTools
             if (alternateConditionToAddItem.HasValue) add = !Exists(item) || alternateConditionToAddItem.Value;
             else add = !Exists(item);
 
-            if(add)
-            {
-                store.Add(item);
+            if (!add) return false;
+            _store.Add(item);
 
-                Catalog.Add(CatalogType.HD, item.HenryDraperId);
-                Catalog.Add(CatalogType.HR, item.HarvardRevisedId);
-                Catalog.Add(CatalogType.HIP, item.HipparcosId);
-                Catalog.Add(CatalogType.COD, item.CodId);
-                Catalog.Add(CatalogType.BD, item.BdId);
-                Catalog.Add(CatalogType.CPD, item.CpdId);
-                Catalog.Add(CatalogType.Gliese, item.GlieseId);
-                Catalog.Add(CatalogType.Name, item.Name);
-            }
+            Catalog.Add(CatalogType.HD, item.HenryDraperId);
+            Catalog.Add(CatalogType.HR, item.HarvardRevisedId);
+            Catalog.Add(CatalogType.HIP, item.HipparcosId);
+            Catalog.Add(CatalogType.COD, item.CodId);
+            Catalog.Add(CatalogType.BD, item.BdId);
+            Catalog.Add(CatalogType.CPD, item.CpdId);
+            Catalog.Add(CatalogType.Gliese, item.GlieseId);
+            Catalog.Add(CatalogType.Name, item.Name);
 
             return add;
         }
 
         public void RemoveAll(Predicate<AstrosynthesisCsv> match)
         {
-            store.RemoveWhere(match);
+            _store.RemoveWhere(match);
         }
 
-        public HashSet<AstrosynthesisCsv> ToList()
+        public IEnumerable<AstrosynthesisCsv> ToList()
         {
-            return store;
+            return _store;
         }
 
         public IEnumerator<AstrosynthesisCsv> GetEnumerator()
         {
-            return ((IEnumerable<AstrosynthesisCsv>)store).GetEnumerator();
+            return ((IEnumerable<AstrosynthesisCsv>)_store).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)store).GetEnumerator();
+            return ((IEnumerable)_store).GetEnumerator();
         }
     }
 }

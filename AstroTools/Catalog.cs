@@ -1,57 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AstroTools
 {
     public static class Catalog
     {
-        private static Dictionary<CatalogType, IEnumerable<string>> catalog;
+        private static Dictionary<CatalogType, IEnumerable<string>> _catalog;
 
         public static void Init()
         {
-            catalog = new Dictionary<CatalogType, IEnumerable<string>>();
+            _catalog = new Dictionary<CatalogType, IEnumerable<string>>();
         }
 
         public static int Count(CatalogType cat)
         {
-            if (catalog.ContainsKey(cat))
-                return catalog[cat].Count();
-            else
-                return 0;
+            return _catalog.ContainsKey(cat) ? _catalog[cat].Count() : 0;
         }
 
         public static void Add(CatalogType cat, string id)
         {
-            if (!catalog.ContainsKey(cat) && !string.IsNullOrEmpty(id))
+            if (!_catalog.ContainsKey(cat) && !string.IsNullOrEmpty(id))
             {
-                catalog.Add(cat, new HashSet<string>());
+                _catalog.Add(cat, new HashSet<string>());
             }
 
-            if (!string.IsNullOrEmpty(id))
-            {
-                var tempList = catalog[cat].ToHashSet();
-                tempList.Add(id);
-                catalog[cat] = tempList;
-            }
+            if (string.IsNullOrEmpty(id)) return;
+
+            var tempList = _catalog[cat].ToHashSet();
+            tempList.Add(id);
+            _catalog[cat] = tempList;
         }
 
         public static HashSet<string> Get(CatalogType cat)
         {
-            if (!catalog.ContainsKey(cat)) return new HashSet<string>();
-
-            return catalog[cat].ToHashSet<string>();
+            return !_catalog.ContainsKey(cat) ? new HashSet<string>() : _catalog[cat].ToHashSet<string>();
         }
 
         public static bool Contains(CatalogType cat, string id)
         {
-            bool result = false;
+            if (!_catalog.ContainsKey(cat)) return false;
 
-            if (!catalog.ContainsKey(cat)) return false;
-
-            result = catalog[cat].Contains(id);
-
+            var result = _catalog[cat].Contains(id);
             return result;
         }
     }

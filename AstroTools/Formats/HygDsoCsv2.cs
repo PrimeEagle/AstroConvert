@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FileHelpers;
 
-namespace AstroTools
+namespace AstroTools.Formats
 {
     [DelimitedRecord(",")]
     [IgnoreFirst(1)]
-    public class HygCsv3 : IAstroFormat
+    public class HygDsoCsv2 : IAstroFormat
     {
         [FieldTrim(TrimMode.Both)]
         public string Id { get; set; }
@@ -69,8 +67,8 @@ namespace AstroTools
         {
             AstrosynthesisCsv result = null;
 
-            string hdId = this.HenryDraperId;
-            string hrId = this.HarvardRevisedId;
+            var hdId = this.HenryDraperId;
+            var hrId = this.HarvardRevisedId;
 
             result = new AstrosynthesisCsv();
 
@@ -79,20 +77,15 @@ namespace AstroTools
 
             if (this.ColorIndex.HasValue)
             {
-                double temperature;
-                double tempSol = Math.Pow(10, (14.551 - 0.656) / 3.684);
+                var tempSol = Math.Pow(10, (14.551 - 0.656) / 3.684);
 
-                if (this.ColorIndex > -0.0413)
-                {
-                    temperature = Math.Pow(10, (14.551 - this.ColorIndex.Value) / 3.684);
-                }
-                else
-                {
-                    temperature = Math.Pow(10, (4.945 - Math.Sqrt(1.087353 + 2.906977 * (this.ColorIndex.Value))));
-                }
+                var temperature = this.ColorIndex > -0.0413 ? Math.Pow(10, (14.551 - this.ColorIndex.Value) / 3.684) 
+                    : Math.Pow(10, (4.945 - Math.Sqrt(1.087353 + 2.906977 * (this.ColorIndex.Value))));
 
-                radius = Math.Pow(tempSol / temperature, 2) * Math.Sqrt(this.Luminosity.Value);
-                mass = Math.Pow(radius.Value, (1 / 0.8));
+                var luminosity = this.Luminosity;
+                if (luminosity != null)
+                    radius = Math.Pow(tempSol / temperature, 2) * Math.Sqrt(luminosity.Value);
+                if (radius != null) mass = Math.Pow(radius.Value, (1 / 0.8));
             }
 
             string bodyType;
@@ -135,14 +128,7 @@ namespace AstroTools
 
         IEnumerable<IAstroFormat> IAstroFormat.ReadFile(FileType ft)
         {
-            var inputEngineHyg3 = new FileHelperEngine<HygCsv3>();
-            var inputListHyg3 = inputEngineHyg3.ReadFile($"{ft.Filename}").ToList<HygCsv3>();
-            var multiStars = inputListHyg3.Where(x => !string.IsNullOrEmpty(x.MultistarCatalogId)).OrderBy(x => x.MultistarCatalogId).ThenBy(x => x.GlieseId);
-            var singleStars = inputListHyg3.Where(x => string.IsNullOrEmpty(x.MultistarCatalogId));
-
-            var result = (multiStars ?? Enumerable.Empty<IAstroFormat>()).Concat(singleStars ?? Enumerable.Empty<IAstroFormat>());
-
-            return result;
+            throw new NotImplementedException();
         }
     }
 }

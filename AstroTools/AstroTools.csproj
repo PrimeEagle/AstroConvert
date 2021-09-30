@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,6 +7,15 @@
 
   <ItemGroup>
     <PackageReference Include="FileHelpers" Version="3.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="VNet.CommandLine">
+      <HintPath>..\..\Shared Libraries\VNet.CommandLine.dll</HintPath>
+    </Reference>
+    <Reference Include="VNet.Utility">
+      <HintPath>..\..\Shared Libraries\VNet.Utility.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

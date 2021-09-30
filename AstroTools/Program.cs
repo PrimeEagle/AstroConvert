@@ -4,18 +4,19 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
+using AstroTools.Formats;
 using FileHelpers;
 
 namespace AstroTools
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            DateTime startTime = DateTime.Now;
+            var startTime = DateTime.Now;
 
-            string path = "D:\\Dropbox\\Writing\\Supplements\\Empyrean\\_AstroSynthesis Supplements\\";
-            List<FileType> files = new List<FileType>
+            const string path = "D:\\Dropbox\\Writing\\Supplements\\Empyrean\\_AstroSynthesis Supplements\\";
+            var files = new List<FileType>
             {
                 //new FileType($"{path}hygdata_v3.csv", InputFileFormat.HygCsv3),
                 new FileType($"{path}Space 100 ly Fileset Package\\Space1 20ly AstroSyn CSV.csv", InputFileFormat.AstrosynthesisCsv),
@@ -43,10 +44,10 @@ namespace AstroTools
                 //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_beyond10000ly.csv", InputFileFormat.AstrosynthesisCsv)
             };
 
-            string outputFilename = $"{path}complete.csv";
-            OutputFileFormat outputFormat = OutputFileFormat.AstrosynthesisCsv;
+            var outputFilename = $"{path}complete.csv";
+            const OutputFileFormat outputFormat = OutputFileFormat.AstrosynthesisCsv;
 
-            AstrosynthesisStore outputStore = new AstrosynthesisStore();
+            var outputStore = new AstrosynthesisStore();
 
             Catalog.Init();
 
@@ -60,9 +61,9 @@ namespace AstroTools
 
             WriteFile(outputFormat, outputFilename, outputStore);
 
-            DateTime endTime = DateTime.Now;
+            var endTime = DateTime.Now;
 
-            TimeSpan ts = endTime - startTime;
+            var ts = endTime - startTime;
             foreach (var e in Catalog.Get(CatalogType.Eliminated))
             {
                 Console.WriteLine(e);
@@ -74,30 +75,31 @@ namespace AstroTools
 
         private static void ProcessFile(FileType ft, AstrosynthesisStore outputStore)
         {
-            IEnumerable<IAstroFormat> inputList;
+            var inputList = ReadFile(ft);
 
-            inputList = ReadFile(ft);
-
-            int count = 0;
-            int parse = 0;
-            int total = inputList.Count();
-            string lastSystemId = string.Empty;
+            var count = 0;
+            var parse = 0;
+            var astroFormats = inputList as IAstroFormat[] ?? inputList.ToArray();
+            var total = astroFormats.Count();
+            var lastSystemId = string.Empty;
 
             Console.Write($"     Parsing {parse} records of {total}...          ");
-            foreach (var input in inputList)
+            foreach (var input in astroFormats)
             {
-                bool partOfMultiple = (input.SystemId == lastSystemId);
+                var partOfMultiple = (input.SystemId == lastSystemId);
 
-                AstrosynthesisCsv result = input.Convert();
+                var result = input.Convert();
                 parse++;
                 if (parse % 100 == 0) Console.Write($"\r     Parsing {parse} records of {total} ({count} added)...          ");
 
-                AlternateConditionData data = new AlternateConditionData();
-                data.InputItem = input;
-                data.ConvertedItem = result;
-                data.PartOfMultiple = partOfMultiple;
+                var data = new AlternateConditionData
+                {
+                    InputItem = input,
+                    ConvertedItem = result,
+                    PartOfMultiple = partOfMultiple
+                };
 
-                bool added = outputStore.Add(result, input.AlternateAddCondition(data));
+                var added = outputStore.Add(result, input.AlternateAddCondition(data));
 
                 if (added)
                     count++;
@@ -106,16 +108,16 @@ namespace AstroTools
 
                 lastSystemId = input.SystemId;
             }
-            Console.WriteLine($"\r     {count} records out of {inputList.Count()} added.             ");
+            Console.WriteLine($"\r     {count} records out of {astroFormats.Count()} added.             ");
         }
 
         private static IEnumerable<IAstroFormat> ReadFile(FileType ft)
         {
-            string className = $"{ typeof(Program).Namespace}.{ ft.Format.ToString()}";
+            var className = $"{ typeof(Program).Namespace}.{ ft.Format.ToString()}";
 
-            IAstroFormat fileFormat = (IAstroFormat)Activator.CreateInstance(Assembly.GetExecutingAssembly().FullName, className).Unwrap();
+            var fileFormat = (IAstroFormat)Activator.CreateInstance(Assembly.GetExecutingAssembly().FullName, className)?.Unwrap();
             
-            return fileFormat.ReadFile(ft);
+            return fileFormat?.ReadFile(ft);
         }
 
         private static void WriteFile(OutputFileFormat outputFormat, string filename, AstrosynthesisStore store)

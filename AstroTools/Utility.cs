@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AstroTools
 {
@@ -9,28 +8,28 @@ namespace AstroTools
     {
         public static string GetTagValue(string fullString, string tag)
         {
-            List<string> result = new List<string>();
-            string retVal = string.Empty;
+            var result = new List<string>();
+            var retVal = string.Empty;
 
-            string normalized = fullString.Replace(":", "").Replace(";", "").Trim();
+            var normalized = fullString.Replace(":", "").Replace(";", "").Trim();
             var tokens = normalized.Split(' ').ToList<string>();
             tokens.RemoveAll(t => t.Length == 0);
 
-            int startIdx = tokens.FindIndex(t => t.Trim() == tag.Trim());
-            
+            var startIdx = tokens.FindIndex(t => t.Trim() == tag.Trim());
 
-            if (startIdx >= 0)
+
+            if (startIdx < 0) return retVal;
             {
-                int idx = startIdx + 1;
-                bool done = false;
+                var idx = startIdx + 1;
+                var done = false;
 
                 while(idx < tokens.Count && !done)
                 {
-                    string t = tokens[idx].Trim();
+                    var t = tokens[idx].Trim();
 
                     if (Utility.IsNumber(t) ||
-                       (tag == "Gliese" && t == "NN") ||
-                       (t.Length == 1 && new string[] { "A", "B", "C", "D", "E" }.Contains(t)))
+                        (tag == "Gliese" && t == "NN") ||
+                        (t.Length == 1 && new string[] { "A", "B", "C", "D", "E" }.Contains(t)))
                     {
                         result.Add(t);
                     }
@@ -50,13 +49,7 @@ namespace AstroTools
 
         public static bool IsNumber(string s)
         {
-            int tempInt;
-            bool result = false;
-
-            if (int.TryParse(s, out tempInt))
-            {
-                result = true;
-            }
+            var result = int.TryParse(s, out _);
 
             return result;
         }
@@ -64,9 +57,9 @@ namespace AstroTools
         public static string RandomDigits(int length)
         {
             var random = new Random();
-            string s = string.Empty;
-            for (int i = 0; i < length; i++)
-                s = String.Concat(s, random.Next(10).ToString());
+            var s = string.Empty;
+            for (var i = 0; i < length; i++)
+                s = string.Concat(s, random.Next(10).ToString());
             return s;
         }
     }
