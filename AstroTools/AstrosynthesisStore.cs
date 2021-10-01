@@ -66,10 +66,10 @@ namespace AstroTools
         {
             var toRemove = _store.Where(i => match(i));
             
-            Parallel.ForEach(toRemove, item => 
+            foreach(var item in toRemove)
             {
                 _store.TryRemove(item);
-            });
+            }
         }
 
         public IEnumerable<AstrosynthesisCsv> ToList()

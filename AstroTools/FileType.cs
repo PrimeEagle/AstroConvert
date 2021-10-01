@@ -2,6 +2,7 @@
 {
     public class FileType
     {
+        public int Number { get; set; }
         public string Filename { get; set; }
         public InputFileFormat Format { get; set; }
 

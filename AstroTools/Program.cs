@@ -14,6 +14,8 @@ namespace AstroTools
 {
     public class Program
     {
+        private static object _sync = new object();
+
         public static void Main(string[] args)
         {
             var startTime = DateTime.Now;
@@ -31,20 +33,20 @@ namespace AstroTools
                 new FileType($"{path}kepner_stardata\\kepner_100lyr_stars.csv", InputFileFormat.AstrosynthesisCsv),
                 new FileType($"{path}kepner_stardata\\kepner_1000lyr_stars.csv", InputFileFormat.AstrosynthesisCsv),
                 new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_5ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_10ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_15ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_20ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_25ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_50ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_100ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_200ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_300ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_400ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_500ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_1000ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_5000ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_10000ly.csv", InputFileFormat.AstrosynthesisCsv),
-                //new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_beyond10000ly.csv", InputFileFormat.AstrosynthesisCsv)
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_10ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_15ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_20ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_25ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_50ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_100ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_200ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_300ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_400ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_500ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_1000ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_5000ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_10000ly.csv", InputFileFormat.AstrosynthesisCsv),
+                new FileType($"{path}hip_astro_charts_1000ly\\hip_astro_charts_beyond10000ly.csv", InputFileFormat.AstrosynthesisCsv)
             };
 
             var outputFilename = $"{path}complete.csv";
@@ -54,18 +56,25 @@ namespace AstroTools
 
             Catalog.Init();
 
-            Parallel.ForEach(files, file =>
-            {
-                Console.WriteLine($"Reading file '{Path.GetFileName(file.Filename)}'...");
-                ProcessFile(file, outputStore);
-            });
+            var i = -1;
+
+            Console.CursorVisible = false;
+
+            Parallel.ForEach(files,
+                new ParallelOptions { MaxDegreeOfParallelism = 12 },
+                file =>
+                {
+                    Interlocked.Increment(ref i);
+                    file.Number = i;
+                    ProcessFile(file, outputStore);
+                });
 
             outputStore.RemoveAll(x => x.Name.ToLower() == "sol" || x.Name.ToLower().Contains(" sol "));
 
             WriteFile(outputFormat, outputFilename, outputStore);
 
             var endTime = DateTime.Now;
-
+            Console.SetCursorPosition(0, 30);
             var ts = endTime - startTime;
             foreach (var e in Catalog.Get(CatalogType.Eliminated))
             {
@@ -78,6 +87,8 @@ namespace AstroTools
 
         private static void ProcessFile(FileType ft, AstrosynthesisStore outputStore)
         {
+            //ShowMessage(ft, $"Reading file...");
+
             var inputList = ReadFile(ft);
 
             var count = 0;
@@ -85,16 +96,15 @@ namespace AstroTools
             var astroFormats = inputList as IAstroFormat[] ?? inputList.ToArray();
             var total = astroFormats.Count();
             var lastSystemId = string.Empty;
-
-            Console.Write($"     Parsing {parse} records of {total}...          ");
-            Parallel.ForEach(astroFormats, input =>
+            //(ft, $"Parsing {parse} records of {total}...");
+            foreach (var input in inputList)
             {
                 var partOfMultiple = (input.SystemId == lastSystemId);
 
                 var result = input.Convert();
-                Interlocked.Increment(ref parse);
-                if (parse % 100 == 0)
-                    Console.Write($"\r     Parsing {parse} records of {total} ({count} added)...          ");
+                parse++;
+                //if (parse % 100 == 0)
+                ShowMessage(ft, $"({Math.Round((double)parse / (double)total * 100.0, 2)}%)");
 
                 var data = new AlternateConditionData
                 {
@@ -112,9 +122,18 @@ namespace AstroTools
                         $"HD = {result.HenryDraperId}, HR = {result.HarvardRevisedId}, HIP = {result.HipparcosId}, COD = {result.CodId}, BD = {result.BdId}, CPD = {result.CpdId}, Gliese = {result.GlieseId}, Name = {result.Name}");
 
                 lastSystemId = input.SystemId;
-            });
+            }
+            //ShowMessage(ft, $"{count} records out of {astroFormats.Count()} added.");
+        }
 
-            Console.WriteLine($"\r     {count} records out of {astroFormats.Count()} added.             ");
+        private static void ShowMessage(FileType ft, string message)
+        {
+            lock (_sync)
+            {
+                message = $"{Path.GetFileName(ft.Filename.ToLower().Trim())} {message}".PadRight(100);
+                Console.SetCursorPosition(0, ft.Number);
+                Console.WriteLine(message);
+            }
         }
 
         private static IEnumerable<IAstroFormat> ReadFile(FileType ft)
