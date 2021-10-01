@@ -54,11 +54,11 @@ namespace AstroTools
 
             Catalog.Init();
 
-            foreach (var file in files)
+            Parallel.ForEach(files, file =>
             {
                 Console.WriteLine($"Reading file '{Path.GetFileName(file.Filename)}'...");
                 ProcessFile(file, outputStore);
-            }
+            });
 
             outputStore.RemoveAll(x => x.Name.ToLower() == "sol" || x.Name.ToLower().Contains(" sol "));
 
@@ -122,13 +122,13 @@ namespace AstroTools
             var className = $"{ typeof(Program).Namespace}.Formats.{ ft.Format.ToString()}";
 
             var fileFormat = (IAstroFormat)Activator.CreateInstance(Assembly.GetExecutingAssembly().FullName, className)?.Unwrap();
-            
+
             return fileFormat?.ReadFile(ft);
         }
 
         private static void WriteFile(OutputFileFormat outputFormat, string filename, AstrosynthesisStore store)
         {
-            switch(outputFormat)
+            switch (outputFormat)
             {
                 case OutputFileFormat.AstrosynthesisCsv:
                 default:

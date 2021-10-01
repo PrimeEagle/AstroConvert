@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "ConcurrentHashSet/1.3.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/ConcurrentCollections.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/ConcurrentCollections.dll": {}
+        }
+      },
       "FileHelpers/3.5.0": {
         "type": "package",
         "compile": {
@@ -14,6 +23,23 @@
     }
   },
   "libraries": {
+    "ConcurrentHashSet/1.3.0": {
+      "sha512": "a30gfk4WDn2f7sOisXpko+CrQ7s5nL1ZWk4afnRwwRQHWPRrRSZpzn5Dz2YWpJtS90NJqkytQ/MkzHq4QYTIbg==",
+      "type": "package",
+      "path": "concurrenthashset/1.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "concurrenthashset.1.3.0.nupkg.sha512",
+        "concurrenthashset.nuspec",
+        "lib/net461/ConcurrentCollections.dll",
+        "lib/net461/ConcurrentCollections.xml",
+        "lib/netstandard1.0/ConcurrentCollections.dll",
+        "lib/netstandard1.0/ConcurrentCollections.xml",
+        "lib/netstandard2.0/ConcurrentCollections.dll",
+        "lib/netstandard2.0/ConcurrentCollections.xml"
+      ]
+    },
     "FileHelpers/3.5.0": {
       "sha512": "CjeIunu+f2KfJj3UOMqBQoDaD57YCObc1LesBbgXWR4/wVx7bHszbMumyxuDJc8SzaP9np7BUTeTIXz1c+EDtg==",
       "type": "package",
@@ -34,6 +60,7 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "ConcurrentHashSet >= 1.3.0",
       "FileHelpers >= 3.5.0"
     ]
   },
@@ -80,6 +107,10 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "ConcurrentHashSet": {
+            "target": "Package",
+            "version": "[1.3.0, )"
+          },
           "FileHelpers": {
             "target": "Package",
             "version": "[3.5.0, )"

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "6DWI9MLFpQT41jj1IgHLUjxSxPjjMNSS/OaOp3snN6oH1SHeGKQY54W6G5F5vaFiKZpEZwmbrVLcNDCEcogCDA==",
+  "dgSpecHash": "+cVBC1wGUM8hAXKhNINvZZv1aeqEK2u7l8wXippYve6clbNEsXFtGnGef5h2vLhPen0eE6H1z31pX5fkXWNMeQ==",
   "success": true,
   "projectFilePath": "D:\\My Code\\AstroTools\\AstroTools\\AstroTools.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\John\\.nuget\\packages\\concurrenthashset\\1.3.0\\concurrenthashset.1.3.0.nupkg.sha512",
     "C:\\Users\\John\\.nuget\\packages\\filehelpers\\3.5.0\\filehelpers.3.5.0.nupkg.sha512"
   ],
   "logs": []

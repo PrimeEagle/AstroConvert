@@ -2,15 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AstroTools.Formats;
+using ConcurrentCollections;
 
 namespace AstroTools
 {
     public class AstrosynthesisStore : IEnumerable<AstrosynthesisCsv>
     {
-        private readonly HashSet<AstrosynthesisCsv> _store = new HashSet<AstrosynthesisCsv>();
-
-        public int Count => _store.Count;
+        //private readonly HashSet<AstrosynthesisCsv> _store = new HashSet<AstrosynthesisCsv>();
+        private readonly ConcurrentHashSet<AstrosynthesisCsv> _store = new ConcurrentHashSet<AstrosynthesisCsv>();
+        public int Count => _store.Count();
 
         private static bool Exists(AstrosynthesisCsv item)
         {
@@ -62,7 +64,12 @@ namespace AstroTools
 
         public void RemoveAll(Predicate<AstrosynthesisCsv> match)
         {
-            _store.RemoveWhere(match);
+            var toRemove = _store.Where(i => match(i));
+            
+            Parallel.ForEach(toRemove, item => 
+            {
+                _store.TryRemove(item);
+            });
         }
 
         public IEnumerable<AstrosynthesisCsv> ToList()
